@@ -86,10 +86,10 @@ www.recargafacil.claro.com.br
 .claroseguridad.com" > /etc/payloads
 }
 
-if cat /etc/so |grep -i ubuntu|debian |grep 9|16|18 1> /dev/null 2> /dev/null ; then
+if cat /etc/so |grep -i ubuntu |grep 16 1> /dev/null 2> /dev/null ; then
 echo -e "\033[1;37mConfigurando, Aguarde...\033[0m"
-apt update 1> /dev/null 2> /dev/null
-apt install -y squid3 1> /dev/null 2> /dev/null
+apt-get update 1> /dev/null 2> /dev/null
+apt-get install -y squid3 1> /dev/null 2> /dev/null
 
 service apache2 stop 1> /dev/null 2> /dev/null
 chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
@@ -107,6 +107,7 @@ http_access allow local
 acl iplocal dstdomain 127.0.0.1
 http_access allow iplocal
 http_access deny all' >> /etc/squid/squid.conf
+
 addhost
 
 echo -e "\033[1;37mPara adicionar novos hosts ao squid execute o comando addhost
@@ -118,7 +119,7 @@ echo -e "\033[01;31mTudo terminado crie um usuario e teste !!\033[0m"
 exit 0
 fi
 
-if cat /etc/so |grep -i ubuntu|debian |grep 8|14 1> /dev/null 2> /dev/null ; then
+if cat /etc/so |grep -i ubuntu 1> /dev/null 2> /dev/null ; then
 echo -e "\033[1;37mConfigurando, Aguarde...\033[0m"
 apt-get update 1> /dev/null 2> /dev/null
 apt-get install -y squid3 1> /dev/null 2> /dev/null
@@ -141,6 +142,135 @@ http_access allow iplocal
 http_access deny all' >> /etc/squid3/squid.conf
 payloads
 service squid3 restart 1> /dev/null 2> /dev/null
+addhost
+
+echo -e "\033[1;37mPara adicionar novos hosts ao squid execute o comando addhost
+os hosts ficam no arquivo /etc/payloads\033[0m"
+echo -e "\033[01;31mTudo terminado crie um usuario e teste !! \033[0m"
+exit 0
+fi
+
+if cat /etc/so |grep -i centos 1> /dev/null 2> /dev/null ; then
+echo -e "\033[01;37mConfigurando, Aguarde...\033[0m"
+yum -y update 1> /dev/null 2> /dev/null
+yum install -y squid 1> /dev/null 2> /dev/null
+
+service httpd stop 1> /dev/null 2> /dev/null
+chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
+sshd_config
+service sshd restart 1> /dev/null 2> /dev/null
+
+echo "http_port 80
+visible_hostname VpsPack
+acl ip dstdomain $ip
+http_access allow ip" > /etc/squid/squid.conf
+echo 'acl accept dstdomain -i "/etc/payloads"
+http_access allow accept
+acl local dstdomain localhost
+http_access allow local
+acl iplocal dstdomain 127.0.0.1
+http_access allow iplocal
+http_access deny all' >> /etc/squid/squid.conf
+payloads
+service squid restart 1> /dev/null 2> /dev/null
+addhost
+
+echo -e "\033[1;37mPara adicionar novos hosts ao squid execute o comando addhost
+os hosts ficam no arquivo /etc/payloads\033[0m"
+echo -e "\033[01;31mTudo terminado crie um usuario e teste !! \033[0m"
+exit
+fi
+
+if cat /etc/so |grep -i debian 1> /dev/null 2> /dev/null ; then
+echo -e "\033[01;37mConfigurando, Aguarde...\033[0m"
+apt-get update 1> /dev/null 2> /dev/null
+apt-get install -y squid3 1> /dev/null 2> /dev/null
+service apache2 stop 1> /dev/null 2> /dev/null
+chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
+sshd_config
+
+service ssh restart 1> /dev/null 2> /dev/null
+
+echo "http_port 80
+visible_hostname VpsPack
+acl ip dstdomain $ip
+http_access allow ip" > /etc/squid3/squid.conf
+echo 'acl accept dstdomain -i "/etc/payloads"
+http_access allow accept
+acl local dstdomain localhost
+http_access allow local
+acl iplocal dstdomain 127.0.0.1
+http_access allow iplocal
+http_access deny all' >> /etc/squid3/squid.conf
+payloads
+service squid3 restart 1> /dev/null 2> /dev/null
+addhost
+
+echo -e "\033[1;37mPara adicionar novos hosts ao squid execute o comando addhost
+os hosts ficam no arquivo /etc/payloads\033[0m"
+echo -e "\033[01;31mTudo terminado crie um usuario e teste !! \033[0m"
+exit 0
+fi
+
+
+
+if cat /etc/issue |grep -i kernel 1> /dev/null 2> /dev/null ; then
+echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
+yum -y update 1> /dev/null 2> /dev/null
+yum install -y squid 1> /dev/null 2> /dev/null
+
+service httpd stop 1> /dev/null 2> /dev/null
+chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
+sshd_config
+service sshd restart 1> /dev/null 2> /dev/null
+
+echo "http_port 80
+visible_hostname VpsPack
+acl ip dstdomain $ip
+http_access allow ip" > /etc/squid/squid.conf
+echo 'acl accept dstdomain -i "/etc/payloads"
+http_access allow accept
+acl local dstdomain localhost
+http_access allow local
+acl iplocal dstdomain 127.0.0.1
+http_access allow iplocal
+http_access deny all' >> /etc/squid/squid.conf
+payloads
+service squid restart 1> /dev/null 2> /dev/null
+addhost
+
+echo -e "\033[1;37mPara adicionar novos hosts ao squid execute o comando addhost
+os hosts ficam no arquivo /etc/payloads\033[0m"
+echo -e "\033[01;31mTudo terminado crie um usuario e teste !! \033[0m"
+exit
+fi
+
+echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
+
+yum -y update 1> /dev/null 2> /dev/null
+yum install -y squid 1> /dev/null 2> /dev/null
+apt-get update > /dev/null 2> /dev/null
+apt-get install -y squid3 > /dev/null 2>/dev/null
+service httpd stop 1> /dev/null 2> /dev/null
+service apache2 stop >/dev/null 2> /dev/null
+chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
+sshd_config
+service sshd restart 1> /dev/null 2> /dev/null
+service ssh restart > /dev/null 2> /dev/null
+echo "http_port 80
+visible_hostname VpsPack
+acl ip dstdomain $ip
+http_access allow ip" > /etc/squid*/squid.conf
+echo 'acl accept dstdomain -i "/etc/payloads"
+http_access allow accept
+acl local dstdomain localhost
+http_access allow local
+acl iplocal dstdomain 127.0.0.1
+http_access allow iplocal
+http_access deny all' >> /etc/squid*/squid.conf
+payloads
+service squid restart 1> /dev/null 2> /dev/null
+service squid3 restart > /dev/null 2> /dev/null
 addhost
 echo -e "\033[1;37mPara adicionar novos hosts ao squid execute o comando addhost
 os hosts ficam no arquivo /etc/payloads\033[0m"
