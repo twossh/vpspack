@@ -63,14 +63,14 @@ for _prog in ${_pacotes[@]}; do
 done
 pip install speedtest-cli
 }
-
+clear
 echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
 
 inst_pct
 attlist
 sshd_config
 
-echo -e "\033[1;30mInstalando Sistema...\033[0m"
+echo -e "\033[1;31mInstalando Sistema...\033[0m"
 mkdir /etc/VpsPackdir 2>/dev/null
 mkdir /etc/VpsPackdir/limite 2>/dev/null
 mkdir /etc/VpsPackdir/senha 2>/dev/null
@@ -86,9 +86,9 @@ chmod +x /bin/deletarusuario
 rm -rf /bin/redefinirusuario 2>/dev/null
 wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/redefinirusuario > /bin/redefinirusuario
 chmod +x /bin/redefinirusuario
-rm -rf /bin/vpspack 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/vpspack > /bin/vpspack
-chmod +x /bin/vpspack
+rm -rf /bin/menu 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/menu > /bin/menu
+chmod +x /bin/menu
 rm -rf /bin/speedtest.py 2>/dev/null
 wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/speedtest.py > /bin/speedtest.py
 chmod +x /bin/speedtest.py
@@ -102,11 +102,7 @@ chmod +x /bin/badvpn-udpgw
 rm -rf /etc/autostart 2>/dev/null
 wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/autostart > /etc/autostart
 chmod +x /etc/autostart
-[[ $(crontab -l|grep -c "autostart") = '0' ]] && (crontab -l 2>/dev/null; echo "@reboot /etc/autostart\n* * * * * /etc/autostart") | crontab -
+[[ $(crontab -l|grep -c "autostart") = '0' ]] && (crontab -l 2>/dev/null; echo -e "@reboot /etc/autostart\n* * * * * /etc/autostart") | crontab -
 clear
-echo -e "\033[1;31m-----> \033[01;37mSeu sistema operacional:\033[1;31m $(cat /etc/so)"
-echo -e "\033[1;31m-----> \033[01;37mSeu ip:\033[1;31m $ip"
-echo ""
-echo -e "\033[1;31mInstalacao concluida\n\033[1;37mPara entrar no menu Execute:\033[0m"
-echo -e "\n\033[1;32mvpspack\033[0m"
+echo -e "\033[1;31mINSTALACAO CONCLUIDA\n\n\033[1;31mCOMANDO PRINCIPAL: \033[1;33mvpspack\033[0m"
 rm -rf install
