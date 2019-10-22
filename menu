@@ -348,7 +348,7 @@ case $opcao in
   11)
    removerexpirados;;
   12)
-   speedtest.py;;
+   speedtest --share;;
   13)
    sistemadetalhes;;
   14)
