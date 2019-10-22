@@ -1,10 +1,74 @@
 #!/bin/bash
 cd
-if [ $(id -u) != 0 ]
+
+#/bin/bash
+clear
+if [ $(id -u) -eq 0 ]
 then
-echo "Execute o script como root"
-exit
+	clear
+else
+	if echo $(id) |grep sudo > /dev/null 2>&1
+	then
+	clear
+	echo -e "\033[1;37mVoce não é root"
+	echo -e "\033[1;37mSeu usuario esta no grupo sudo"
+	echo -e "\033[1;37mPara virar root execute \033[1;31msudo su\033[1;37m ou execute \033[1;31msudo $0\033[0m"
+	exit
+	else
+	clear
+	echo -e "Vc nao esta como usuario root, nem com seus direitos (sudo)\nPara virar root execute \033[1;31msu\033[0m e digite sua senha root"
+	exit
+	fi
 fi
+IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+if [[ "$IP" = "" ]]; then
+  IP=$(wget -qO- ipv4.icanhazip.com)
+fi
+echo -ne "\033[1;31mPara continuar confirme seu IP ; read -e -i $IP ip
+if [ -z "$ip" ]; then
+  echo ""
+  echo -e "\033[1;31mErro \033[1;32mIP incorreto!\033[0m"
+  rm -rf $HOME/conf > /dev/null 2>&1
+  sleep 2
+  clear; exit 1
+fi
+
+function sshd_config(){ echo "Port 22
+Protocol 2
+KeyRegenerationInterval 3600
+ServerKeyBits 1024
+SyslogFacility AUTH
+LogLevel INFO
+LoginGraceTime 120
+PermitRootLogin yes
+StrictModes yes
+RSAAuthentication yes
+PubkeyAuthentication yes
+IgnoreRhosts yes
+RhostsRSAAuthentication no
+HostbasedAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+PasswordAuthentication yes
+X11Forwarding yes
+X11DisplayOffset 10
+PrintMotd no
+PrintLastLog yes
+TCPKeepAlive yes
+#UseLogin no
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server
+UsePAM yes" > /etc/ssh/sshd_config
+}
+
+echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
+
+apt-get update > /dev/null 2>&1
+chattr -i /etc/ssh/sshd_config > /dev/null 2>&1
+sshd_config
+service sshd restart 1> /dev/null 2>&1
+service ssh restart > /dev/null 2>&1
+
 echo -e "\033[1;30mInstalando...\033[0m"
 mkdir /etc/VpsPackdir 2>/dev/null
 mkdir /etc/VpsPackdir/limite 2>/dev/null
@@ -28,10 +92,9 @@ rm -rf /bin/speedtest.py 2>/dev/null
 wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/speedtest.py > /bin/speedtest.py
 chmod +x /bin/speedtest.py
 clear
-echo -e "\033[1;32mInstalacao concluida\n\033[1;30mExecute:"
-echo -e "\n\033[1;32mvpspack \033[1;30mMenu com opcoes"
-echo -e "\033[1;32mcriarusuario \033[1;30mCriar usuario com data e limite"
-echo -e "\033[1;32mdeletarusuario \033[1;30mDeletar usuario ou apenas desconectar"
-echo -e "\033[1;32mredefinirusuario \033[1;30mAlterar data, senha, etc, de um usuario"
-echo -e "\033[1;32mlimite \033[1;30mLimite de logins simultaneos\033[0m"
+echo -e "\033[1;31m-----> \033[01;37mSeu sistema operacional:\033[1;31m $(cat /etc/so)"
+echo -e "\033[1;31m-----> \033[01;37mSeu ip:\033[1;31m $ip"
+echo ""
+echo -e "\033[1;31mInstalacao concluida\n\033[1;37mPara entrar no menu Execute:\033[0m"
+echo -e "\n\033[1;32mvpspack\033[0m"
 rm -rf install
