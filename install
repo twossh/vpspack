@@ -50,8 +50,8 @@ function attlist(){
     apt-get update
     apt-get upgrade -y
     if service apache2 status; then
-    sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf
-    service apache2 restart
+    sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf > /dev/null 2>&1
+    service apache2 restart > /dev/null 2>&1
     fi
 }
 
@@ -100,7 +100,8 @@ rm -rf /etc/autostart 2>/dev/null
 wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/autostart > /etc/autostart
 chmod +x /etc/autostart
 [[ $(crontab -l|grep -c "autostart") = '0' ]] && (crontab -l 2>/dev/null; echo -e "@reboot /etc/autostart\n* * * * * /etc/autostart") | crontab -
-
+service apache2 restart > /dev/null 2>&1
+service ssh restart > /dev/null 2>&1
 clear
 echo -e "\033[1;31mINSTALACAO CONCLUIDA\n\n\033[1;31mCOMANDO PRINCIPAL: \033[1;33mvpspack\033[0m"
 rm -rf install
