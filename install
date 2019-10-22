@@ -49,9 +49,7 @@ UsePAM yes" > /etc/ssh/sshd_config
 function attlist(){
     apt-get update
     apt-get upgrade -y
-    if service apache2 status; then
     sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf > /dev/null 2>&1
-    service apache2 restart > /dev/null 2>&1
     fi
 }
 
@@ -102,6 +100,7 @@ chmod +x /etc/autostart
 [[ $(crontab -l|grep -c "autostart") = '0' ]] && (crontab -l 2>/dev/null; echo -e "@reboot /etc/autostart\n* * * * * /etc/autostart") | crontab -
 service apache2 restart > /dev/null 2>&1
 service ssh restart > /dev/null 2>&1
+service apache2 restart > /dev/null 2>&1
 clear
 echo -e "\033[1;31mINSTALACAO CONCLUIDA\n\n\033[1;31mCOMANDO PRINCIPAL: \033[1;33mvpspack\033[0m"
 rm -rf install
