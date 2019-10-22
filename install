@@ -52,17 +52,16 @@ function attlist(){
     if service apache2 status; then
     sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf
     service apache2 restart
-    /etc/init.d/apache2 restart
     fi
 }
 
 function inst_pct () {
-_pacotes=("bc" "screen" "nano" "unzip" "lsof" "man" "dos2unix" "nload" "htop" "jq" "curl" "python" "python3" "python-pip")
+_pacotes=("bc" "screen" "nano" "unzip" "man" "dos2unix" "nload" "htop" "jq" "curl" "python")
 for _prog in ${_pacotes[@]}; do
     apt install $_prog -y
 done
-pip install speedtest-cli
 }
+
 clear
 echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
 
@@ -98,11 +97,11 @@ chmod +x /bin/proxy.py
 rm -rf /bin/badvpn-udpgw 2>/dev/null
 wget -O /bin/badvpn-udpgw https://github.com/twossh/vpspack/blob/master/badvpn-udpgw?raw=true -o /dev/null
 chmod +x /bin/badvpn-udpgw
-#INÍCIO AUTOMÁTICO
 rm -rf /etc/autostart 2>/dev/null
 wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/autostart > /etc/autostart
 chmod +x /etc/autostart
-[[ $(crontab -l|grep -c "autostart") = '0' ]] && (crontab -l 2>/dev/null; echo -e "@reboot /etc/autostart\n* * * * * /etc/autostart") | crontab -
+[[ $(crontab -l|grep -c "autostart") = '0' ]] && (crontab -l 2>/dev/null; echo -ne "@reboot /etc/autostart\n* * * * * /etc/autostart") | crontab -
+
 clear
 echo -e "\033[1;31mINSTALACAO CONCLUIDA\n\n\033[1;31mCOMANDO PRINCIPAL: \033[1;33mvpspack\033[0m"
 rm -rf install
