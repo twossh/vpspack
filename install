@@ -69,7 +69,6 @@ inst_pct
 attlist
 sshd_config
 
-echo -e "\033[1;31mInstalando Sistema...\033[0m"
 mkdir /etc/VpsPackdir 2>/dev/null
 mkdir /etc/VpsPackdir/limite 2>/dev/null
 mkdir /etc/VpsPackdir/senha 2>/dev/null
