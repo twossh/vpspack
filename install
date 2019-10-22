@@ -1,6 +1,3 @@
-#!/bin/bash
-cd
-
 #/bin/bash
 clear
 if [ $(id -u) -eq 0 ]
@@ -47,11 +44,7 @@ TCPKeepAlive yes
 AcceptEnv LANG LC_*
 Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes" > /etc/ssh/sshd_config
-service sshd restart 1> /dev/null 2>&1
-service ssh restart > /dev/null 2>&1
 }
-
-echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
 
 function attlist(){
     apt-get update
@@ -71,10 +64,11 @@ done
 pip install speedtest-cli
 }
 
+echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
+
+inst_pct
 attlist
 sshd_config
-inst_pct
-}
 
 echo -e "\033[1;30mInstalando Sistema...\033[0m"
 mkdir /etc/VpsPackdir 2>/dev/null
