@@ -63,8 +63,15 @@ UsePAM yes" > /etc/ssh/sshd_config
 
 echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
 
-apt-get update > /dev/null 2>&1
-chattr -i /etc/ssh/sshd_config > /dev/null 2>&1
+function attlist(){
+    apt-get update
+    if service apache2 status; then
+    sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf
+    service apache2 restart
+    /etc/init.d/apache2 restart
+    fi
+}
+attlist
 sshd_config
 service sshd restart 1> /dev/null 2>&1
 service ssh restart > /dev/null 2>&1
@@ -91,6 +98,17 @@ chmod +x /bin/vpspack
 rm -rf /bin/speedtest.py 2>/dev/null
 wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/speedtest.py > /bin/speedtest.py
 chmod +x /bin/speedtest.py
+rm -rf /bin/proxy.py 2>/dev/null
+wget https://raw.githubusercontent.com/twossh/vpspack/master/proxy.py -O /bin/proxy.py > /dev/null 2>&1
+chmod +x /bin/proxy.py
+rm -rf /bin/badvpn-udpgw 2>/dev/null
+wget -O /bin/badvpn-udpgw https://github.com/twossh/vpspack/blob/master/badvpn-udpgw?raw=true -o /dev/null
+chmod +x /bin/badvpn-udpgw
+#INÍCIO AUTOMÁTICO
+rm -rf /etc/autostart 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/twossh/vpspack/master/autostart > /etc/autostart
+chmod +x /etc/autostart
+[[ $(crontab -l|grep -c "autostart") = '0' ]] && (crontab -l 2>/dev/null; echo "@reboot /etc/autostart\n* * * * * /etc/autostart") | crontab -
 clear
 echo -e "\033[1;31m-----> \033[01;37mSeu sistema operacional:\033[1;31m $(cat /etc/so)"
 echo -e "\033[1;31m-----> \033[01;37mSeu ip:\033[1;31m $ip"
