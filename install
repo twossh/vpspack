@@ -101,5 +101,5 @@ service apache2 restart > /dev/null 2>&1
 service ssh restart > /dev/null 2>&1
 service apache2 restart > /dev/null 2>&1
 clear
-echo -e "\033[1;31mINSTALACAO CONCLUIDA\n\n\033[1;31mCOMANDO PRINCIPAL: \033[1;33mvpspack\033[0m"
+echo -e "\033[1;31mINSTALACAO CONCLUIDA\n\n\033[1;31mCOMANDO PRINCIPAL: \033[1;33mmenu\033[0m"
 rm -rf install
