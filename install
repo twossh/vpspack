@@ -50,7 +50,6 @@ function attlist(){
     apt-get update
     apt-get upgrade -y
     sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf > /dev/null 2>&1
-    fi
 }
 
 function inst_pct () {
