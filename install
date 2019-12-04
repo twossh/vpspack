@@ -87,11 +87,11 @@ done
 }
 
 clear
-echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
+echo -e "\033[01;31mINICIANDO CONFIGURAÇÃO\033[0m"
 
 apch2
 sshd_config
-inst_pct
+fun_bar 'inst_pct'
 
 mkdir /etc/VpsPackdir 2>/dev/null
 mkdir /etc/VpsPackdir/limite 2>/dev/null
