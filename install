@@ -53,7 +53,7 @@ function apch2(){
 function inst_pct () {
 _pacotes=("bc" "screen" "nano" "unzip" "man" "dos2unix" "nload" "htop" "jq" "curl" "python")
 for _prog in ${_pacotes[@]}; do
-    apt-get install $_prog -y
+    apt-get install $_prog -y > /dev/null 2>&1
 done
 }
 
