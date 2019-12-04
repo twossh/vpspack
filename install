@@ -47,8 +47,6 @@ UsePAM yes" > /etc/ssh/sshd_config
 }
 
 function apch2(){
-    apt-get update
-    apt-get upgrade -y
     sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf > /dev/null 2>&1
 }
 
