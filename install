@@ -46,7 +46,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes" > /etc/ssh/sshd_config
 }
 
-function attlist(){
+function apch2(){
     apt-get update
     apt-get upgrade -y
     sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf > /dev/null 2>&1
@@ -55,16 +55,16 @@ function attlist(){
 function inst_pct () {
 _pacotes=("bc" "screen" "nano" "unzip" "man" "dos2unix" "nload" "htop" "jq" "curl" "python")
 for _prog in ${_pacotes[@]}; do
-    apt install $_prog -y
+    apt-get install $_prog -y
 done
 }
 
 clear
 echo -e "\033[01;31mConfigurando, Aguarde...\033[0m"
 
-inst_pct
-attlist
+apch2
 sshd_config
+inst_pct
 
 mkdir /etc/VpsPackdir 2>/dev/null
 mkdir /etc/VpsPackdir/limite 2>/dev/null
